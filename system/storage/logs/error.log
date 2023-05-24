@@ -1,0 +1,6 @@
+2023-05-24 12:09:23 - PHP Notice:  Undefined variable: pet_list in D:\OpenServer\domains\test.task.opencart\catalog\view\theme\default\template\module\pets.tpl on line 33
+2023-05-24 12:09:23 - PHP Warning:  Invalid argument supplied for foreach() in D:\OpenServer\domains\test.task.opencart\catalog\view\theme\default\template\module\pets.tpl on line 33
+2023-05-24 12:15:39 - PHP Notice:  Undefined variable: pet_list in D:\OpenServer\domains\test.task.opencart\catalog\view\theme\default\template\module\pets.tpl on line 33
+2023-05-24 12:15:39 - PHP Warning:  Invalid argument supplied for foreach() in D:\OpenServer\domains\test.task.opencart\catalog\view\theme\default\template\module\pets.tpl on line 33
+2023-05-24 12:15:43 - PHP Notice:  Undefined variable: pet_list in D:\OpenServer\domains\test.task.opencart\catalog\view\theme\default\template\module\pets.tpl on line 33
+2023-05-24 12:15:43 - PHP Warning:  Invalid argument supplied for foreach() in D:\OpenServer\domains\test.task.opencart\catalog\view\theme\default\template\module\pets.tpl on line 33
