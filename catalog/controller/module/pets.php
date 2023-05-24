@@ -30,19 +30,11 @@ class ControllerModulePets extends Controller
         $data['breed_list'] = $breed_list;
 
 
-//        echo '<pre>';
-//        var_dump($data['pets_list']);
-//        exit;
-
-        $data['action'] = '#';
-
-
         if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/pets.tpl')) {
             return $this->load->view($this->config->get('config_template') . '/template/module/pets.tpl', $data);
         } else {
             return $this->load->view('default/template/module/pets.tpl', $data);
         }
-
 
     }
 
@@ -53,7 +45,6 @@ class ControllerModulePets extends Controller
         $this->load->model('module/pets');
         $this->model_module_pets->addPet($post);
         $data['customer_pets'] = $this->model_module_pets->getCustomerPets($post['customer_id']);
-
 
         echo json_encode(['data' => $data]);
 
@@ -66,7 +57,6 @@ class ControllerModulePets extends Controller
         $this->load->model('module/pets');
         $this->model_module_pets->deletePet($post['id']);
         $data['customer_pets'] = $this->model_module_pets->getCustomerPets($post['customer_id']);
-
 
         echo json_encode(['data' => $data]);
 

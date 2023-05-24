@@ -4,9 +4,6 @@ class ControllerModulePets extends Controller
 
     public function install(){
 
-//        $this->load->model('extension/extension');
-//        $this->model_extension_extension->install('module', 'pets');
-
         $this->load->model('setting/setting');
         $this->model_setting_setting->editSetting('pets', array('pets_status' => 1));
 
@@ -27,9 +24,6 @@ class ControllerModulePets extends Controller
     }
 
     public function uninstall(){
-
-//        $this->load->model('extension/extension');
-//        $this->model_extension_extension->uninstall('module', 'pets');
 
         $this->load->model('setting/setting');
         $this->model_setting_setting->deleteSetting('pets');

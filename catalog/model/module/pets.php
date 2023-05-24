@@ -13,7 +13,6 @@ class ModelModulePets extends Model
 
         return $query->rows;
 
-
     }
 
     public function getPets()
@@ -24,7 +23,6 @@ class ModelModulePets extends Model
             INNER JOIN pm_pets p ON b.pet_id = p.id");
 
         return $query->rows;
-
 
     }
 
