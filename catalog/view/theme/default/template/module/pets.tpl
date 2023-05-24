@@ -46,7 +46,7 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div id="gender_block" class="form-group">
                 <label for="gender">Пол питомца:</label>
                 <select id="gender" class="form-control">
                     <option value="male">Мужской</option>
@@ -69,17 +69,91 @@
 
 <script>
 
+    const customer_id = `<?= $customer_id ?>`;
+
+    const breed_obj = `<?php echo json_encode($breed_list, true); ?>`;
+    const breed_list = JSON.parse(breed_obj);
+
     const form_pets = document.querySelector('#form_pets');
     const select_pets = document.querySelector('#pet');
     const select_breed = document.querySelector('#breed');
+    const gender_block = document.querySelector('#gender_block');
+
+
+    console.dir(form_pets);
 
 
 
-    //console.dir(select_breed);
+
+    prepareBreedsSelect(select_pets.value);
+
+    form_pets.addEventListener('submit', function (e) {
+
+        e.preventDefault();
+
+        let gender = '';
+        if(form_pets[0].value != 4){
+            gender = form_pets[2].value
+        }
+
+        const url = "#";
+
+        let form = new FormData();
+        form.append('customer_id', customer_id);
+        form.append('pet_id', form_pets[0].value);
+        form.append('breed_id', form_pets[1].value);
+        form.append('gender', gender);
+        form.append('age', form_pets[3].value);
+
+        console.dir(form.getAll('gender'));
+        console.dir(form.getAll('gender'));
+        return false;
+
+        send(url, form).then(json => {
+            if (json.data) {
+                //console.dir(json.data);
+                //location.reload();
+            } else {
+                console.log('Помилка серверу!');
+                return false;
+            }
+        });
+
+    });
 
     select_pets.addEventListener('change', function (e) {
-        //console.dir(select_pets);
-        console.log(e.target.value);
+        prepareBreedsSelect(e.target.value);
     });
+
+    function prepareBreedsSelect(pet_id){
+        let str = '';
+        breed_list[pet_id].forEach(item => {
+            str += `<option value="${item.id}">${item.breed}</option>`;
+        });
+        select_breed.innerHTML = str;
+        if(pet_id == 4){
+            gender_block.style.display = 'none';
+        } else {
+            gender_block.style.display = 'block';
+        }
+    }
+
+    async function send(url, body = null) {
+
+        if (body) {
+            let response = await fetch(url, {
+                method: 'POST',
+                body: body,
+                headers: {
+                    //"Content-type": "application/json",
+                    //"Authorization": "Bearer " + token
+                }
+            });
+            return await response.json();
+        } else {
+            let response = await fetch(url, {method: 'GET'});
+            return await response.json();
+        }
+    }
 
 </script>

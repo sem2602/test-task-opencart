@@ -5,6 +5,7 @@ class ControllerModulePets extends Controller
     public function index(){
 
         $customer_id = (int)$this->customer->getId();
+        $data['customer_id'] = $customer_id;
 
         $this->load->model('module/pets');
 
