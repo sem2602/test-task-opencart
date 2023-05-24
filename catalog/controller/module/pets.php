@@ -45,4 +45,31 @@ class ControllerModulePets extends Controller
 
 
     }
+
+    public function add(){
+
+        $post = $this->request->post;
+
+        $this->load->model('module/pets');
+        $this->model_module_pets->addPet($post);
+        $data['customer_pets'] = $this->model_module_pets->getCustomerPets($post['customer_id']);
+
+
+        echo json_encode(['data' => $data]);
+
+    }
+
+    public function delete(){
+
+        $post = $this->request->post;
+
+        $this->load->model('module/pets');
+        $this->model_module_pets->deletePet($post['id']);
+        $data['customer_pets'] = $this->model_module_pets->getCustomerPets($post['customer_id']);
+
+
+        echo json_encode(['data' => $data]);
+
+    }
+
 }

@@ -28,6 +28,26 @@ class ModelModulePets extends Model
 
     }
 
+    public function addPet($data)
+    {
+
+        $this->db->query("INSERT INTO pm_customer_pets SET 
+            customer_id = '" . $data['customer_id'] . "',
+            pet_id = '" . $data['pet_id'] . "',
+            breed_id = '" . $data['breed_id'] . "',
+            gender = '" . $data['gender'] . "',
+            age = '" . $data['age'] . "'
+            ");
+
+    }
+
+    public function deletePet($id)
+    {
+
+        $this->db->query("DELETE FROM pm_customer_pets WHERE id = '" . $id . "'");
+
+    }
+
 
 
 }

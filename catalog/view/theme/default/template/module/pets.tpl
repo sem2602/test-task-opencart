@@ -1,26 +1,6 @@
 <div class="" style="margin: 0 auto; max-width: 400px">
 
-    <?php if(!empty($customer_pets)) { ?>
-
-    <h3>Ваши питомцы:</h3>
-
-    <?php foreach($customer_pets as $key => $customer_pet) { ?>
-
-        <div class="b" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center">
-
-            <span><?= $key + 1 . '. ' . $customer_pet['pet'] . ' ' . $customer_pet['breed'] ?></span>
-
-            <button type="button" data-toggle="tooltip" title="Удалить" class="btn btn-danger" onclick=""><i class="fa fa-trash-o"></i></button>
-
-        </div>
-
-    <?php } ?>
-
-    <?php } else { ?>
-
-    <div>No saved pets!</div>
-
-    <?php } ?>
+    <div id="pets_list"></div>
 
     <div style="margin-top: 10px;">
 
@@ -70,6 +50,8 @@
 <script>
 
     const customer_id = `<?= $customer_id ?>`;
+    const pets_list = JSON.parse(`<?php echo json_encode($customer_pets) ?>`);
+    const pets_list_block = document.querySelector('#pets_list');
 
     const breed_obj = `<?php echo json_encode($breed_list, true); ?>`;
     const breed_list = JSON.parse(breed_obj);
@@ -79,11 +61,7 @@
     const select_breed = document.querySelector('#breed');
     const gender_block = document.querySelector('#gender_block');
 
-
-    console.dir(form_pets);
-
-
-
+    preparePetsList(pets_list);
 
     prepareBreedsSelect(select_pets.value);
 
@@ -96,7 +74,7 @@
             gender = form_pets[2].value
         }
 
-        const url = "#";
+        const url = "index.php?route=module/pets/add";
 
         let form = new FormData();
         form.append('customer_id', customer_id);
@@ -105,13 +83,9 @@
         form.append('gender', gender);
         form.append('age', form_pets[3].value);
 
-        console.dir(form.getAll('gender'));
-        console.dir(form.getAll('gender'));
-        return false;
-
         send(url, form).then(json => {
             if (json.data) {
-                //console.dir(json.data);
+                preparePetsList(json.data.customer_pets);
                 //location.reload();
             } else {
                 console.log('Помилка серверу!');
@@ -121,9 +95,52 @@
 
     });
 
+    function delPet(id){
+
+        const url = "index.php?route=module/pets/delete";
+
+        let form = new FormData();
+        form.append('id', id);
+        form.append('customer_id', customer_id);
+
+        send(url, form).then(json => {
+            if (json.data) {
+                preparePetsList(json.data.customer_pets);
+                //location.reload();
+            } else {
+                console.log('Помилка серверу!');
+                return false;
+            }
+        });
+
+    }
+
     select_pets.addEventListener('change', function (e) {
         prepareBreedsSelect(e.target.value);
     });
+
+    function preparePetsList(data){
+
+        let html = '';
+        if(data.length > 0){
+
+            html += `<h3>Ваши питомцы:</h3>`;
+
+            data.forEach((item, index) => {
+                html += `<div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center">`;
+                html += `<span>${index + 1}. ${item.pet} ${item.breed}</span>`;
+                html += `<button type="button" data-toggle="tooltip" title="Удалить" class="btn btn-danger" onclick="delPet(${item.id});">
+                    <i class="fa fa-trash-o"></i></button></div>`;
+            });
+
+            pets_list_block.innerHTML = html;
+
+        } else {
+            html += `<h4>Добавьте своего питомца!</h4>`;
+            pets_list_block.innerHTML = html;
+        }
+
+    }
 
     function prepareBreedsSelect(pet_id){
         let str = '';
